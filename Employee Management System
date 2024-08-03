@@ -1,0 +1,61 @@
+CREATE DATABASE library;
+
+USE library;
+
+CREATE TABLE employees (
+    emp_id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_name VARCHAR(100) NOT NULL,
+    emp_email VARCHAR(100) UNIQUE,
+    emp_phone VARCHAR(20),
+    emp_address VARCHAR(255),
+    emp_department_id INT,
+    emp_salary DECIMAL(10, 2),
+    hire_date DATE
+);
+
+CREATE TABLE departments (
+    dept_id INT AUTO_INCREMENT PRIMARY KEY,
+    dept_name VARCHAR(100) NOT NULL,
+    location VARCHAR(100)
+);
+
+CREATE TABLE salaries (
+    salary_id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_id INT,
+    salary_amount DECIMAL(10, 2),
+    salary_date DATE,
+    FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
+);
+
+CREATE TABLE titles (
+    title_id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_id INT,
+    job_title VARCHAR(100),
+    from_date DATE,
+    to_date DATE,
+    FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
+);
+
+INSERT INTO employees (emp_name, emp_email, emp_phone, emp_address, emp_department_id, emp_salary, hire_date)
+VALUES ('Rahul Mandal', 'rahulman@example.com', '123-456-7890', 'Agartala, Tripura', 1, 50000.00, '2024-01-15');
+
+INSERT INTO departments (dept_name, location)
+VALUES ('IT', 'Headquarters');
+
+INSERT INTO salaries (emp_id, salary_amount, salary_date)
+VALUES (1, 50000.00, '2024-01-31');
+
+INSERT INTO titles (emp_id, job_title, from_date, to_date)
+VALUES (1, 'Software Engineer', '2024-01-15', NULL);
+
+#Retrieve all employees:
+SELECT * FROM employees;
+
+#Retrieve employees by department:
+SELECT emp_name, emp_email FROM employees WHERE emp_department_id = 1;
+
+#Update employee information:
+UPDATE employees SET emp_salary = 55000.00 WHERE emp_id = 1;
+
+#Retrieve updated data:
+SELECT * FROM employees;
